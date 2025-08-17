@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unit Converter</title>
+</head>
+<body>
+  <div class="container">
+
+    <h1>Unit Converter</h1>
+
+    <div class="tabs">
+      <%= link_to "Length", dashboard_index_path(type: "length"), class: ("active" if params[:type] == "length")  %>
+      <%= link_to "Weight", dashboard_index_path(type: "weight"), class: ("active" if params[:type] == "weight")  %>
+      <%= link_to "Temperature", dashboard_index_path(type: "temperature"), class: ("active" if params[:type] == "temperature")  %>
+    </div>
+
+    <%= form_with url: dashboard_index_path, method: :get, local: true do |f| %>
+      
+      <%= f.hidden_field :type, value: params[:type]%>
+      <%= f.label :amount_to_convert, "Enter the #{params[:type]} to convert"%>
+      <%= f.number_field :amount_to_convert, min: 0, step: 1, class: "input_form" %>
+
+      <%= f.label :unit_to_convert_from, "Unit to Convert from" %>
+      <%= f.select :unit_to_convert_from, @units, {}, class: "input_form" %>
+      
+      <%= f.label :unit_to_convert_to, "Unit to Convert to" %>
+      <%= f.select :unit_to_convert_to, @units, {}, class: "input_form" %>
+      
+      <div>
+        <%= f.submit "Convert" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="container">
+    <h1>Unit Converter</h1>
+    <div class="tabs">
+      <%= link_to "Length", dashboard_index_path(type: "length"), class: ("active" if params[:type] == "length")  %>
+      <%= link_to "Weight", dashboard_index_path(type: "weight"), class: ("active" if params[:type] == "weight")  %>
+      <%= link_to "Temperature", dashboard_index_path(type: "temperature"), class: ("active" if params[:type] == "temperature")  %>
+    </div>
+
+    <div>
+      <p>Result of your calculation</p>
+      <% if @result %>
+        <div class="result"><%= @amount_to_convert.to_f %> <%= @unit_to_convert_from %> = <%= @result %> <%= @unit_to_convert_to %></div>
+        </div>
+      <% end %>
+  </div>
+</body>
+</html>
